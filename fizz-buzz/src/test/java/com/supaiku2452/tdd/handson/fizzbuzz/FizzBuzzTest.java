@@ -14,7 +14,8 @@ public class FizzBuzzTest {
                 new FizzBuzzData(2, "2"),
                 new FizzBuzzData(3, "Fizz"),
                 new FizzBuzzData(4, "4"),
-                new FizzBuzzData(5, "Buzz")
+                new FizzBuzzData(5, "Buzz"),
+                new FizzBuzzData(15, "FizzBuzz"),
         };
 
         for ( FizzBuzzData fizzBuzzData : fizzBuzzDatas ) {
