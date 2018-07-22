@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class FizzBuzzTest {
 
     @Test
-    public void test1toOne() {
+    public void testFizzBuzz() {
 
         FizzBuzzData[] fizzBuzzDatas = {
                 new FizzBuzzData(1, "1"),
