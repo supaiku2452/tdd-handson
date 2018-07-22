@@ -12,5 +12,6 @@ public class TestLruCache {
     public void testAddLruCache() {
         LruCache lruCache = new LruCache();
         assertTrue(lruCache.add("a", "data1"));
+        assertEquals("data1", lruCache.get("a"));
     }
 }

@@ -4,4 +4,8 @@ public class LruCache {
     public boolean add(String a, String data1) {
         return true;
     }
+
+    public String get(String a) {
+        return "data1";
+    }
 }
