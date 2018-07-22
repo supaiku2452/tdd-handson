@@ -1,0 +1,19 @@
+group 'com.supaiku2452.tdd.handson'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task fizzbuzz(type: JavaExec) {
+    main = "com.supaiku2452.tdd.handson.fizzbuzz.FizzBuzzMain"
+    classpath = sourceSets.main.runtimeClasspath
+}
