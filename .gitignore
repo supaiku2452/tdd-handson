@@ -89,6 +89,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-build.gradle
-src/main/
-src/test/resources/
+.idea/
+/src/
