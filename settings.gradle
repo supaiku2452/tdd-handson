@@ -1,0 +1,3 @@
+rootProject.name = 'tdd-handson'
+include 'fizz-buzz'
+
