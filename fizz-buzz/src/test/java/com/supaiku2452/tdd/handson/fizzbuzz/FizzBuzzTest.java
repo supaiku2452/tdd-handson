@@ -11,4 +11,10 @@ public class FizzBuzzTest {
         String actual = new FizzBuzz().exec(1);
         assertEquals("1", actual);
     }
+
+    @Test
+    public void test2toTwo() {
+        String actual = new FizzBuzz().exec(2);
+        assertEquals("2", actual);
+    }
 }
