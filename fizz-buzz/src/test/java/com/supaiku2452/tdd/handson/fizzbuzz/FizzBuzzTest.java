@@ -8,13 +8,24 @@ public class FizzBuzzTest {
 
     @Test
     public void test1toOne() {
-        String actual = new FizzBuzz().exec(1);
-        assertEquals("1", actual);
+
+        FizzBuzzData[] fizzBuzzDatas = {
+                new FizzBuzzData(1, "1"),
+                new FizzBuzzData(2, "2")
+        };
+
+        for ( FizzBuzzData fizzBuzzData : fizzBuzzDatas ) {
+            assertEquals(new FizzBuzz().exec(fizzBuzzData.input), fizzBuzzData.actual);
+        }
     }
 
-    @Test
-    public void test2toTwo() {
-        String actual = new FizzBuzz().exec(2);
-        assertEquals("2", actual);
+    private class FizzBuzzData {
+        private final int input;
+        private final String actual;
+
+        public FizzBuzzData(int input, String actual) {
+            this.input = input;
+            this.actual = actual;
+        }
     }
 }
