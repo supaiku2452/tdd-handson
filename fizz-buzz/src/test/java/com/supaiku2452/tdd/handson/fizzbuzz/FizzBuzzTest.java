@@ -8,7 +8,7 @@ public class FizzBuzzTest {
 
     @Test
     public void test1toOne() {
-        String actual = "1";
+        String actual = new FizzBuzz().exec(1);
         assertEquals("1", actual);
     }
 }
