@@ -15,6 +15,8 @@ public class TestLruCache {
         String[][] testCacheDatas = {
                 {"a", "data1"},
                 {"b", "data2"},
+                {"c", "data3"},
+                {"d", "data4"},
         };
 
         LruCache lruCache = new LruCache();
@@ -23,5 +25,8 @@ public class TestLruCache {
             assertTrue(lruCache.add(testCacheData[0], testCacheData[1]));
             assertEquals(testCacheData[1], lruCache.get(testCacheData[0]));
         });
+
+        // 最初に追加したデータはNullであるはず
+        assertEquals(null, lruCache.get("a"));
     }
 }
