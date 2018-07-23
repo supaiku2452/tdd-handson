@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestLruCache {
 
@@ -33,13 +31,19 @@ public class TestLruCache {
 
     @Test
     public void testUpdateLruCacheHistory() {
-        String[] testCacheData = {"a", "data1"};
+        String[][] testCacheDatas = {
+                {"a", "data1"},
+                {"b", "data2"},
+                {"c", "data3"},
+                {"d", "data4"},
+        };
 
         LruCache lruCache = new LruCache();
 
-        assertTrue(lruCache.addCacheMemory(testCacheData[0], testCacheData[1]));
-        assertEquals(testCacheData[1], lruCache.getCacheMemory(testCacheData[0]).getValue());
+        for ( String[] testCacheData : testCacheDatas ) {
+            assertTrue(lruCache.addCacheMemory(testCacheData[0], testCacheData[1]));
+        }
 
-        assertNotNull(lruCache.getCacheMemory(testCacheData[0]).getHistory());
+        assertNull(lruCache.getCacheMemory("a"));
     }
 }

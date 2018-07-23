@@ -8,7 +8,7 @@ import java.util.Map;
 public class LruCache {
     Map<String, String> lruCacheMap = new HashMap<>();
 
-    Map<String, CacheMemory> lruCacheMemeoryMap = new HashMap<>();
+    Map<String, CacheMemory> lruCacheMemoryMap = new HashMap<>();
 
     public boolean add(String key, String value) {
 
@@ -41,13 +41,35 @@ public class LruCache {
     }
 
     public boolean addCacheMemory(String key, String value) {
-        lruCacheMemeoryMap.put(key, new CacheMemory(value));
+
+        if ( lruCacheMemoryMap.size() == 3 ) {
+            boolean isFirst = true;
+
+            Map<String, CacheMemory> _lruCacheMemoryMap = new HashMap<>();
+            for ( Iterator<Map.Entry<String, CacheMemory>> it = lruCacheMemoryMap.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, CacheMemory> entry = it.next();
+
+                if ( isFirst ) {
+                    isFirst = false;
+                } else {
+                    _lruCacheMemoryMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+            lruCacheMemoryMap = new HashMap<>(_lruCacheMemoryMap);
+            lruCacheMemoryMap.put(key, new CacheMemory(value));
+        } else {
+            lruCacheMemoryMap.put(key, new CacheMemory(value));
+        }
+
         return true;
     }
 
     public CacheMemory getCacheMemory(String key) {
-        lruCacheMemeoryMap.get(key).setHistory(new Date());
-        return lruCacheMemeoryMap.get(key);
+        if ( lruCacheMemoryMap.get(key) == null ) {
+            return null;
+        }
+        lruCacheMemoryMap.get(key).setHistory(new Date());
+        return lruCacheMemoryMap.get(key);
     }
 
     public class CacheMemory {
