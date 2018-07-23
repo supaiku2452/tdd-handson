@@ -1,11 +1,14 @@
 package com.supaiku2452.tdd.handson.lru_cache;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class LruCache {
     Map<String, String> lruCacheMap = new HashMap<>();
+
+    Map<String, CacheMemory> lruCacheMemeoryMap = new HashMap<>();
 
     public boolean add(String key, String value) {
 
@@ -35,5 +38,36 @@ public class LruCache {
 
     public String get(String key) {
         return lruCacheMap.get(key);
+    }
+
+    public boolean addCacheMemory(String key, String value) {
+        lruCacheMemeoryMap.put(key, new CacheMemory(value));
+        return true;
+    }
+
+    public CacheMemory getCacheMemory(String key) {
+        lruCacheMemeoryMap.get(key).setHistory(new Date());
+        return lruCacheMemeoryMap.get(key);
+    }
+
+    public class CacheMemory {
+        private final String value;
+        private Date history;
+
+        public CacheMemory(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setHistory(Date history) {
+            this.history = history;
+        }
+
+        public Date getHistory() {
+            return history;
+        }
     }
 }

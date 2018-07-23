@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestLruCache {
@@ -28,5 +29,17 @@ public class TestLruCache {
 
         // 最初に追加したデータはNullであるはず
         assertEquals(null, lruCache.get("a"));
+    }
+
+    @Test
+    public void testUpdateLruCacheHistory() {
+        String[] testCacheData = {"a", "data1"};
+
+        LruCache lruCache = new LruCache();
+
+        assertTrue(lruCache.addCacheMemory(testCacheData[0], testCacheData[1]));
+        assertEquals(testCacheData[1], lruCache.getCacheMemory(testCacheData[0]).getValue());
+
+        assertNotNull(lruCache.getCacheMemory(testCacheData[0]).getHistory());
     }
 }
