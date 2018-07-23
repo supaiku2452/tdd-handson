@@ -9,21 +9,36 @@ public class LruCache {
     public boolean add(String key, String value) {
 
         if ( lruCacheMemoryMap.size() == 3 ) {
-            boolean isFirst = true;
+            // 全てNullかチェックする必要がある
+            long unuseDataCount = lruCacheMemoryMap.entrySet().stream()
+                    .filter(entry -> entry.getValue().getHistory() == null)
+                    .count();
 
-            Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
+            if ( unuseDataCount == 3 || unuseDataCount == 0 ) {
+                boolean isFirst = true;
 
-            for ( Iterator<Map.Entry<String, CacheMemory>> it = lruCacheMemoryMap.entrySet().iterator(); it.hasNext(); ) {
-                Map.Entry<String, CacheMemory> entry = it.next();
+                Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
 
-                if ( isFirst ) {
-                    isFirst = false;
-                } else {
-                    _lruCacheMemoryMap.put(entry.getKey(), entry.getValue());
+                for ( Iterator<Map.Entry<String, CacheMemory>> it = lruCacheMemoryMap.entrySet().iterator(); it.hasNext(); ) {
+                    Map.Entry<String, CacheMemory> entry = it.next();
+
+                    if ( isFirst ) {
+                        isFirst = false;
+                    } else {
+                        _lruCacheMemoryMap.put(entry.getKey(), entry.getValue());
+                    }
                 }
+                lruCacheMemoryMap = new TreeMap<>(_lruCacheMemoryMap);
+                lruCacheMemoryMap.put(key, new CacheMemory(value));
+            } else {
+                Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
+                lruCacheMemoryMap.entrySet().stream()
+                        .filter(entry -> entry.getValue().getHistory() != null)
+                        .forEach(entry -> _lruCacheMemoryMap.put(entry.getKey(), entry.getValue()));
+
+                lruCacheMemoryMap = new TreeMap<>(_lruCacheMemoryMap);
+                lruCacheMemoryMap.put(key, new CacheMemory(value));
             }
-            lruCacheMemoryMap = new TreeMap<>(_lruCacheMemoryMap);
-            lruCacheMemoryMap.put(key, new CacheMemory(value));
         } else {
             lruCacheMemoryMap.put(key, new CacheMemory(value));
         }

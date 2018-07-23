@@ -58,4 +58,53 @@ public class TestLruCache {
 
         assertNull("check key {b}:", lruCache.get("b"));
     }
+
+    @Test
+    public void testDeleteUnusedData() {
+        String[][] testCacheDatas = {
+                {"a", "data1"},
+                {"b", "data2"},
+                {"c", "data3"},
+        };
+
+        LruCache lruCache = new LruCache();
+
+        for ( String[] testCacheData : testCacheDatas ) {
+            lruCache.add(testCacheData[0], testCacheData[1]);
+        }
+
+        // Use 'a' and 'c'
+        lruCache.get("a");
+        lruCache.get("c");
+
+        String[] newAddData = {"d", "data4"};
+        lruCache.add(newAddData[0], newAddData[1]);
+
+        assertNull("check key {b}:", lruCache.get("b"));
+    }
+
+    @Test
+    public void testDeleteMostOldDataWhenAllUsed() {
+        String[][] testCacheDatas = {
+                {"a", "data1"},
+                {"b", "data2"},
+                {"c", "data3"},
+        };
+
+        LruCache lruCache = new LruCache();
+
+        for ( String[] testCacheData : testCacheDatas ) {
+            lruCache.add(testCacheData[0], testCacheData[1]);
+        }
+
+        // Use 'a' and 'c'
+        lruCache.get("a");
+        lruCache.get("b");
+        lruCache.get("c");
+
+        String[] newAddData = {"d", "data4"};
+        lruCache.add(newAddData[0], newAddData[1]);
+
+        assertNull("check key {a}:", lruCache.get("a"));
+    }
 }
