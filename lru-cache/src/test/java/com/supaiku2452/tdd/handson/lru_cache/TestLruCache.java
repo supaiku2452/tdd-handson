@@ -35,4 +35,27 @@ public class TestLruCache {
 
         assertNotNull(lruCache.get("a"));
     }
+
+    @Test
+    public void testDeleteFirstAddedCacheWhenAllNull() {
+        String[][] testCacheDatas = {
+                {"a", "data1"},
+                {"b", "data2"},
+                {"c", "data3"},
+                {"d", "data4"},
+        };
+
+        LruCache lruCache = new LruCache();
+
+        for ( String[] testCacheData : testCacheDatas ) {
+            lruCache.add(testCacheData[0], testCacheData[1]);
+        }
+
+        assertNull(lruCache.get("a"));
+
+        String[] newAddData = {"e", "data5"};
+        lruCache.add(newAddData[0], newAddData[1]);
+
+        assertNull("check key {b}:", lruCache.get("b"));
+    }
 }
