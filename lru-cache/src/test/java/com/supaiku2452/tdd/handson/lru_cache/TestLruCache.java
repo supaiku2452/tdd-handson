@@ -97,7 +97,7 @@ public class TestLruCache {
             lruCache.add(testCacheData[0], testCacheData[1]);
         }
 
-        // Use 'a' and 'c'
+        // Use 'a' and 'b' and 'c'
         lruCache.get("a");
         lruCache.get("b");
         lruCache.get("c");
