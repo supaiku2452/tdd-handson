@@ -107,4 +107,21 @@ public class TestLruCache {
 
         assertNull("check key {a}:", lruCache.get("a"));
     }
+
+    @Test
+    public void testGetFirstAddedData() {
+        String[][] testCacheDatas = {
+                {"c", "data3"},
+                {"a", "data1"},
+                {"b", "data2"},
+        };
+
+        LruCache lruCache = new LruCache();
+
+        for ( String[] testCacheData : testCacheDatas ) {
+            lruCache.add(testCacheData[0], testCacheData[1]);
+        }
+
+        assertEquals("c", lruCache.getFirstAddedData());
+    }
 }
