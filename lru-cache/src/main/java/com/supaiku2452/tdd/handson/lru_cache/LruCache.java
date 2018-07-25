@@ -1,5 +1,6 @@
 package com.supaiku2452.tdd.handson.lru_cache;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class LruCache {
@@ -15,31 +16,24 @@ public class LruCache {
                     .filter(entry -> entry.getValue().getHistory() == null)
                     .count();
 
+            Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
+
             if ( unuseDataCount == 3 || unuseDataCount == 0 ) {
-                boolean isFirst = true;
 
-                Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
+                this.lruCacheMemoryMap.entrySet().stream()
+                        .skip(1)
+                        .forEach(lruCacheMemoryMap ->
+                                _lruCacheMemoryMap.put(lruCacheMemoryMap.getKey(), lruCacheMemoryMap.getValue()));
 
-                for ( Iterator<Map.Entry<String, CacheMemory>> it = lruCacheMemoryMap.entrySet().iterator(); it.hasNext(); ) {
-                    Map.Entry<String, CacheMemory> entry = it.next();
-
-                    if ( isFirst ) {
-                        isFirst = false;
-                    } else {
-                        _lruCacheMemoryMap.put(entry.getKey(), entry.getValue());
-                    }
-                }
-                lruCacheMemoryMap = new TreeMap<>(_lruCacheMemoryMap);
-                lruCacheMemoryMap.put(key, new CacheMemory(value, addedNumberCounter++));
             } else {
-                Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
                 lruCacheMemoryMap.entrySet().stream()
                         .filter(entry -> entry.getValue().getHistory() != null)
                         .forEach(entry -> _lruCacheMemoryMap.put(entry.getKey(), entry.getValue()));
 
-                lruCacheMemoryMap = new TreeMap<>(_lruCacheMemoryMap);
-                lruCacheMemoryMap.put(key, new CacheMemory(value, addedNumberCounter++));
             }
+
+            lruCacheMemoryMap = new TreeMap<>(_lruCacheMemoryMap);
+            lruCacheMemoryMap.put(key, new CacheMemory(value, addedNumberCounter++));
         } else {
             lruCacheMemoryMap.put(key, new CacheMemory(value, addedNumberCounter++));
         }
@@ -51,7 +45,7 @@ public class LruCache {
         if ( lruCacheMemoryMap.get(key) == null ) {
             return null;
         }
-        lruCacheMemoryMap.get(key).setHistory(new Date());
+        lruCacheMemoryMap.get(key).setHistory(LocalDateTime.now());
         return lruCacheMemoryMap.get(key);
     }
 
@@ -65,7 +59,7 @@ public class LruCache {
 
     public class CacheMemory {
         private final String value;
-        private Date history;
+        private LocalDateTime history;
 
         private int addedNumber;
 
@@ -83,11 +77,11 @@ public class LruCache {
             return value;
         }
 
-        public void setHistory(Date history) {
+        public void setHistory(LocalDateTime history) {
             this.history = history;
         }
 
-        public Date getHistory() {
+        public LocalDateTime getHistory() {
             return history;
         }
 
