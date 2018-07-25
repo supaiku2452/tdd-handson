@@ -124,4 +124,28 @@ public class TestLruCache {
 
         assertEquals("c", lruCache.getFirstAddedData());
     }
+
+    @Test
+    public void testGetOldestHistoryData() throws InterruptedException {
+        String[][] testCacheDatas = {
+                {"a", "data1"},
+                {"b", "data2"},
+                {"c", "data3"},
+        };
+
+        LruCache lruCache = new LruCache();
+
+        for ( String[] testCacheData : testCacheDatas ) {
+            lruCache.add(testCacheData[0], testCacheData[1]);
+        }
+
+        // Use 'a' and 'b' and 'c'
+        lruCache.get("c");
+        Thread.sleep(1000);
+        lruCache.get("b");
+        Thread.sleep(1000);
+        lruCache.get("a");
+
+        assertEquals("c", lruCache.getOldestHistoryData());
+    }
 }

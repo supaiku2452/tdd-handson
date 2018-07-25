@@ -57,6 +57,15 @@ public class LruCache {
                 .getKey();
     }
 
+    public String getOldestHistoryData() {
+        return this.lruCacheMemoryMap.entrySet().stream()
+                .filter(map -> map.getValue().getHistory() != null)
+                .sorted((o1, o2) -> (o1.getValue().getHistory().compareTo(o2.getValue().getHistory())))
+                .findFirst()
+                .get()
+                .getKey();
+    }
+
     public class CacheMemory {
         private final String value;
         private LocalDateTime history;
