@@ -7,7 +7,7 @@ public class LruCache {
 
     Map<String, CacheMemory> lruCacheMemoryMap = new TreeMap<>();
     private static int addedNumberCounter = 0;
-    
+
     public boolean add(String key, String value) {
 
         if ( lruCacheMemoryMap.size() == 3 ) {
@@ -18,13 +18,17 @@ public class LruCache {
 
             Map<String, CacheMemory> _lruCacheMemoryMap = new TreeMap<>();
 
-            if ( unuseDataCount == 3 || unuseDataCount == 0 ) {
-
+            // キャッシュが満タンの状態(全て参照済み)
+            if ( unuseDataCount == 0 ) {
+                this.lruCacheMemoryMap.entrySet().stream()
+                        .filter(lruCacheMemoryMap -> !lruCacheMemoryMap.getKey().equals(this.getOldestHistoryData()))
+                        .forEach(lruCacheMemoryMap ->
+                                _lruCacheMemoryMap.put(lruCacheMemoryMap.getKey(), lruCacheMemoryMap.getValue()));
+            } else if ( unuseDataCount == 3 ) { // キャッシュが満タンの状態(全て未参照)
                 this.lruCacheMemoryMap.entrySet().stream()
                         .skip(1)
                         .forEach(lruCacheMemoryMap ->
                                 _lruCacheMemoryMap.put(lruCacheMemoryMap.getKey(), lruCacheMemoryMap.getValue()));
-
             } else {
                 lruCacheMemoryMap.entrySet().stream()
                         .filter(entry -> entry.getValue().getHistory() != null)
@@ -57,7 +61,7 @@ public class LruCache {
                 .getKey();
     }
 
-    public String getOldestHistoryData() {
+    private String getOldestHistoryData() {
         return this.lruCacheMemoryMap.entrySet().stream()
                 .filter(map -> map.getValue().getHistory() != null)
                 .sorted((o1, o2) -> (o1.getValue().getHistory().compareTo(o2.getValue().getHistory())))

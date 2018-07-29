@@ -126,7 +126,7 @@ public class TestLruCache {
     }
 
     @Test
-    public void testGetOldestHistoryData() throws InterruptedException {
+    public void testDeleteOldestDataWhenCacheFull() throws InterruptedException{
         String[][] testCacheDatas = {
                 {"a", "data1"},
                 {"b", "data2"},
@@ -146,6 +146,8 @@ public class TestLruCache {
         Thread.sleep(1000);
         lruCache.get("a");
 
-        assertEquals("c", lruCache.getOldestHistoryData());
+        lruCache.add("d", "data4");
+
+        assertNull(lruCache.get("c"));
     }
 }
