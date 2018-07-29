@@ -53,14 +53,6 @@ public class LruCache {
         return lruCacheMemoryMap.get(key);
     }
 
-    public String getFirstAddedData() {
-        return this.lruCacheMemoryMap.entrySet().stream()
-                .sorted((o1, o2) -> (o1.getValue().getAddedNumber() - o2.getValue().getAddedNumber()))
-                .findFirst()
-                .get()
-                .getKey();
-    }
-
     private String getOldestHistoryData() {
         return this.lruCacheMemoryMap.entrySet().stream()
                 .filter(map -> map.getValue().getHistory() != null)

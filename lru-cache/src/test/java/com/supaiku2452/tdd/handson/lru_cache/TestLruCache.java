@@ -1,5 +1,6 @@
 package com.supaiku2452.tdd.handson.lru_cache;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -106,23 +107,6 @@ public class TestLruCache {
         lruCache.add(newAddData[0], newAddData[1]);
 
         assertNull("check key {a}:", lruCache.get("a"));
-    }
-
-    @Test
-    public void testGetFirstAddedData() {
-        String[][] testCacheDatas = {
-                {"c", "data3"},
-                {"a", "data1"},
-                {"b", "data2"},
-        };
-
-        LruCache lruCache = new LruCache();
-
-        for ( String[] testCacheData : testCacheDatas ) {
-            lruCache.add(testCacheData[0], testCacheData[1]);
-        }
-
-        assertEquals("c", lruCache.getFirstAddedData());
     }
 
     @Test
